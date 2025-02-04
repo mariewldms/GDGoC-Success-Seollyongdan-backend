@@ -15,4 +15,10 @@ interface UserRepository : JpaRepository<User, Long> {
 
     // 특정 지역에 속한 사용자 조회
     fun findByTown(town: String): List<User>
+
+    // 아이디 중복 여부 확인
+    fun existsByUsername(username: String): Boolean
+
+    // 닉네임 중복 여부 확인
+    fun existsByNickname(nickname: String): Boolean
 }

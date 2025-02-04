@@ -1,5 +1,9 @@
 server:
   post: 8080
+  error:
+    whitelabel:
+      enabled: false
+    include-message: always
 
 spring:
   datasource:

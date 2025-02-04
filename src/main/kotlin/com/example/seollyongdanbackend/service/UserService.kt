@@ -12,6 +12,8 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.http.HttpStatus
+import org.springframework.web.server.ResponseStatusException
 
 @Service
 class UserService(
@@ -46,7 +48,13 @@ class UserService(
 
     // 로그인 & JWT 발급
     fun login(username: String, password: String): String {
-        authenticationManager.authenticate(UsernamePasswordAuthenticationToken(username, password))
+        val user = userRepository.findByUsername(username)
+            ?: throw ResponseStatusException(HttpStatus.UNAUTHORIZED, "정보가 일치하지 않습니다.")
+
+        if (!passwordEncoder.matches(password, user.password)) {
+            throw ResponseStatusException(HttpStatus.UNAUTHORIZED, "정보가 일치하지 않습니다.")
+        }
+
         return jwtUtil.generateToken(username)
     }
 
@@ -56,28 +64,13 @@ class UserService(
         return user.username
     }
 
-    // 비밀번호 찾기 (아이디 기반)
-    fun resetPassword(username: String): String {
-        val user = userRepository.findByUsername(username) ?: throw IllegalArgumentException("존재하지 않는 아이디입니다.")
-        val temporaryPassword = generateRandomPassword()
-        userRepository.save(user.copy(password = passwordEncoder.encode(temporaryPassword)))
-        return "임시 비밀번호: $temporaryPassword"
-    }
-
-    // 8자리 랜덤 비밀번호 생성 함수
-    private fun generateRandomPassword(): String {
-        val chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789"
-        return (1..8).map { chars.random() }.joinToString("")
-    }
-
-    // 비밀번호 변경
-    fun changePassword(username: String, currentPassword: String, newPassword: String): String {
-        val user = userRepository.findByUsername(username) ?: throw IllegalArgumentException("존재하지 않는 아이디입니다.")
-        if (!passwordEncoder.matches(currentPassword, user.password)) {
-            throw IllegalArgumentException("현재 비밀번호가 일치하지 않습니다.")
-        }
+    // 비밀번호 찾기: 아이디 입력만으로 새로운 비밀번호 변경
+    fun resetPassword(username: String, newPassword: String): String {
+        val user = userRepository.findByUsername(username) ?: throw ResponseStatusException(HttpStatus.NOT_FOUND, "존재하지 않는 아이디입니다.")
         val hashedNewPassword = passwordEncoder.encode(newPassword)
-        userRepository.save(user.copy(password = hashedNewPassword))
+        val updatedUser = user.copy(password = hashedNewPassword)
+        userRepository.save(updatedUser)
+
         return "비밀번호가 성공적으로 변경되었습니다."
     }
 

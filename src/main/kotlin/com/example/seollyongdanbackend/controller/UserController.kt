@@ -7,6 +7,8 @@ import com.example.seollyongdanbackend.service.UserService
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 import jakarta.validation.Valid
+import org.springframework.http.HttpStatus
+import org.springframework.web.server.ResponseStatusException
 
 @RestController
 @RequestMapping("/api/users")
@@ -27,6 +29,9 @@ class UserController(private val userService: UserService) {
     // ✅ 로그인 (JWT 발급)
     @PostMapping("/login")
     fun login(@RequestBody request: UserLoginRequest): ResponseEntity<AuthResponse> {
+        if (request.password.isNullOrBlank()) {
+            throw ResponseStatusException(HttpStatus.BAD_REQUEST, "비밀번호를 입력해주세요.")
+        }
         val token = userService.login(request.username, request.password)
         return ResponseEntity.ok(AuthResponse(token))
     }
@@ -39,13 +44,9 @@ class UserController(private val userService: UserService) {
     }
 
     // ✅ 비밀번호 변경 API (사용자가 비밀번호를 변경할 때, JWT 필요)
-    @PostMapping("/change-password")
-    fun changePassword(
-        @RequestParam username: String,
-        @RequestParam currentPassword: String,
-        @RequestParam newPassword: String
-    ): ResponseEntity<String> {
-        val message = userService.changePassword(username, currentPassword, newPassword)
+    @PostMapping("/reset-password")
+    fun resetPassword(@RequestBody request: ResetPasswordRequest): ResponseEntity<String> {
+        val message = userService.resetPassword(request.username, request.newPassword)
         return ResponseEntity.ok(message)
     }
 
@@ -61,3 +62,9 @@ class UserController(private val userService: UserService) {
         return ResponseEntity.ok(userService.isNicknameAvailable(nickname))
     }
 }
+
+data class ResetPasswordRequest(
+    val username: String,
+    val newPassword: String
+)
+
