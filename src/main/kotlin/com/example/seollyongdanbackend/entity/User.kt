@@ -1,5 +1,6 @@
 package com.example.seollyongdanbackend.entity
 
+//JPA(Java Persistence API) 관련 어노테이션 사용 위해
 import jakarta.persistence.*
 
 @Entity

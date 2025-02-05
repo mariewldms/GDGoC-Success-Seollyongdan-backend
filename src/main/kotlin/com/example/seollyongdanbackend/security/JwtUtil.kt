@@ -23,14 +23,25 @@ class JwtUtil {
 
     fun validateToken(token: String): Boolean {
         return try {
-            Jwts.parserBuilder().setSigningKey(SECRET_KEY).build().parseClaimsJws(token)
+            val claims = Jwts.parserBuilder().setSigningKey(SECRET_KEY).build().parseClaimsJws(token)
+            println("Token is valid: ${claims.body.subject}") // ✅ 로그 추가
             true
+        } catch (e: ExpiredJwtException) {
+            println("JWT Token has expired") // ✅ 만료 로그
+            false
         } catch (e: Exception) {
+            println("Invalid JWT Token") // ✅ 기타 오류 로그
             false
         }
     }
 
     fun extractUsername(token: String): String {
-        return Jwts.parserBuilder().setSigningKey(SECRET_KEY).build().parseClaimsJws(token).body.subject
+        println("Parsing Token: $token") // ✅ 추가 로그
+        return Jwts.parserBuilder()
+            .setSigningKey(SECRET_KEY)
+            .build()
+            .parseClaimsJws(token)
+            .body
+            .subject
     }
 }

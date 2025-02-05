@@ -37,31 +37,35 @@ class SecurityConfig(
     @Bean
     fun securityFilterChain(http: HttpSecurity): SecurityFilterChain {
         http
-            .cors { it.configurationSource { request -> CorsConfiguration().applyPermitDefaultValues() } } // ✅ CORS 문제 방지 (필요 시 활성화)
-            .csrf { it.disable() } // ✅ CSRF 비활성화 (JWT 사용 시 필요)
+            .cors { it.configurationSource { request -> CorsConfiguration().applyPermitDefaultValues() } }
+            .csrf { it.disable() }
             .authorizeHttpRequests { auth ->
                 auth.requestMatchers(
                     "/api/users/signup",
                     "/api/users/login",
-                    "/api/users/find-username",
-                    "/api/users/reset-password",
                     "/api/users/check-username",
                     "/api/users/check-nickname"
-                ).permitAll() // ✅ 인증 없이 접근 가능
+                ).permitAll() // ✅ 회원가입, 로그인, 중복 확인만 인증 없이 가능
 
-                auth.anyRequest().authenticated() // ✅ 나머지 요청은 인증 필요 (JWT 토큰 필요)
+                auth.requestMatchers(
+                    "/api/users/find-username",
+                    "/api/users/reset-password"
+                ).authenticated() // ✅ JWT 인증 필요하도록 변경
+
+                auth.anyRequest().authenticated()
             }
             .exceptionHandling { exceptionHandling ->
-                exceptionHandling.authenticationEntryPoint(customAuthenticationEntryPoint()) // 401 반환
-                exceptionHandling.accessDeniedHandler(customAccessDeniedHandler()) // 403 처리
+                exceptionHandling.authenticationEntryPoint(customAuthenticationEntryPoint())
+                exceptionHandling.accessDeniedHandler(customAccessDeniedHandler())
             }
             .sessionManagement {
-                it.sessionCreationPolicy(SessionCreationPolicy.STATELESS) // ✅ 세션 상태 관리 (JWT 사용)
+                it.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
             }
-            .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter::class.java) // ✅ JWT 인증 필터 추가
+            .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter::class.java)
 
         return http.build()
     }
+
 
     @Bean
     fun corsConfigurationSource(): CorsConfigurationSource {

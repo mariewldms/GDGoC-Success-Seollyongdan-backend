@@ -36,17 +36,18 @@ class UserController(private val userService: UserService) {
         return ResponseEntity.ok(AuthResponse(token))
     }
 
-    // ✅ 아이디 찾기 (닉네임 기반)
+    // ✅ 아이디 찾기 (닉네임 기반) → JWT 인증 추가
     @GetMapping("/find-username")
-    fun findUsername(@RequestParam nickname: String): ResponseEntity<String> {
-        val username = userService.findUsernameByNickname(nickname)
+    fun findUsername(@RequestHeader("Authorization") token: String): ResponseEntity<String> {
+        val username = userService.extractUsernameFromToken(token)
         return ResponseEntity.ok(username)
     }
 
-    // ✅ 비밀번호 변경 API (사용자가 비밀번호를 변경할 때, JWT 필요)
+    // ✅ 비밀번호 변경 API → JWT 인증 추가
     @PostMapping("/reset-password")
-    fun resetPassword(@RequestBody request: ResetPasswordRequest): ResponseEntity<String> {
-        val message = userService.resetPassword(request.username, request.newPassword)
+    fun resetPassword(@RequestHeader("Authorization") token: String, @RequestBody request: ResetPasswordRequest): ResponseEntity<String> {
+        val username = userService.extractUsernameFromToken(token)
+        val message = userService.resetPassword(username, request.newPassword)
         return ResponseEntity.ok(message)
     }
 
@@ -64,7 +65,6 @@ class UserController(private val userService: UserService) {
 }
 
 data class ResetPasswordRequest(
-    val username: String,
     val newPassword: String
 )
 

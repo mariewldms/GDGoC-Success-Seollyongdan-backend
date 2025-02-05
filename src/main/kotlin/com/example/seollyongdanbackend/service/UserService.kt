@@ -26,7 +26,7 @@ class UserService(
     @Autowired
     private lateinit var authenticationManager: AuthenticationManager
 
-    // 회원가입 처리 (confirmPassword 필드 제거)
+    // 회원가입 처리
     fun registerUser(username: String, password: String, nickname: String, town: String): String {
         if (userRepository.findByUsername(username) != null) {
             throw IllegalArgumentException("이미 존재하는 아이디입니다.")
@@ -62,6 +62,14 @@ class UserService(
     fun findUsernameByNickname(nickname: String): String {
         val user = userRepository.findByNickname(nickname) ?: throw IllegalArgumentException("해당 닉네임을 가진 사용자가 없습니다.")
         return user.username
+    }
+
+    fun extractUsernameFromToken(token: String): String {
+        val cleanToken = token.replace("Bearer ", "") // Bearer 제거
+        println("Extracted Token: $cleanToken") // ✅ 로그 추가
+        val username = jwtUtil.extractUsername(cleanToken)
+        println("Extracted Username: $username") // ✅ 로그 추가
+        return username
     }
 
     // 비밀번호 찾기: 아이디 입력만으로 새로운 비밀번호 변경
