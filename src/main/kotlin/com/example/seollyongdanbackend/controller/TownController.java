@@ -1,6 +1,7 @@
 package com.example.seollyongdanbackend.controller;
 
 
+import com.example.seollyongdanbackend.dto.TownPropertiesResponseDto;
 import com.example.seollyongdanbackend.dto.TownSafetyResponseDto;
 import com.example.seollyongdanbackend.service.TownService;
 import org.springframework.web.bind.annotation.*;
@@ -18,4 +19,11 @@ public class TownController {
     public TownSafetyResponseDto getTownSafety(@PathVariable("town-id") Long townId) {
         return townService.getSafetyInfo(townId);
     }
+
+    @GetMapping("/{town-id}/properties")
+    public TownPropertiesResponseDto getTownProperties(@PathVariable("town-id") Long townId) {
+        return townService.getPropertiesInfo(townId);
+    }
+
+
 }
