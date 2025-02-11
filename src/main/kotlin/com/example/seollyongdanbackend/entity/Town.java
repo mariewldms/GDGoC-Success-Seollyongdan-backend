@@ -12,7 +12,7 @@ public class Town {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer townId;  // 자치구 ID
+    private Long townId;  // 자치구 ID
 
     @Column(nullable = false, length = 50)
     private String townName;  // 자치구 이름

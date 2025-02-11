@@ -15,7 +15,7 @@ public class TownService {
     }
 
     @Transactional(readOnly = true)
-    public TownSafetyResponseDto getSafetyInfo(Integer townId) {
+    public TownSafetyResponseDto getSafetyInfo(Long townId) {
         Town town = townRepository.findById(townId)
                 .orElseThrow(() -> new IllegalArgumentException("해당 자치구가 존재하지 않습니다. ID: " + townId));
 

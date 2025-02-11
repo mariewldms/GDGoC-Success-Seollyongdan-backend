@@ -15,7 +15,7 @@ public class TownController {
     }
 
     @GetMapping("/{town-id}/safety")
-    public TownSafetyResponseDto getTownSafety(@PathVariable("town-id") Integer townId) {
+    public TownSafetyResponseDto getTownSafety(@PathVariable("town-id") Long townId) {
         return townService.getSafetyInfo(townId);
     }
 }

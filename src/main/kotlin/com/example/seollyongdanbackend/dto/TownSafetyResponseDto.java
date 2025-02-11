@@ -5,7 +5,7 @@ import lombok.Getter;
 
 @Getter
 public class TownSafetyResponseDto {
-    private Integer townId;
+    private Long townId;
     private String townName;
 
     private Integer[] crimeData;
