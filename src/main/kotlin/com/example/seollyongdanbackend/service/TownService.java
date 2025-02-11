@@ -1,9 +1,6 @@
 package com.example.seollyongdanbackend.service;
 
-import com.example.seollyongdanbackend.dto.TownPropertiesResponseDto;
-import com.example.seollyongdanbackend.dto.TownSafetyResponseDto;
-import com.example.seollyongdanbackend.dto.TownCrimeFrequencyResponseDto;
-import com.example.seollyongdanbackend.dto.TownSafetyRankResponseDto;
+import com.example.seollyongdanbackend.dto.*;
 import com.example.seollyongdanbackend.entity.Town;
 import com.example.seollyongdanbackend.repository.TownRepository;
 import org.springframework.stereotype.Service;
@@ -49,6 +46,14 @@ public class TownService {
                 .orElseThrow(() -> new IllegalArgumentException("해당 자치구가 존재하지 않습니다. ID: " + townId));
 
         return new TownPropertiesResponseDto(town);
+    }
+
+    // 전체 자치구의 도로 혼잡도 조회
+    public List<TownRoadCongestionResponseDto> getAllRoadCongestion() {
+        List<Town> towns = townRepository.findAll();
+        return towns.stream()
+                .map(TownRoadCongestionResponseDto::new)
+                .collect(Collectors.toList());
     }
 }
 

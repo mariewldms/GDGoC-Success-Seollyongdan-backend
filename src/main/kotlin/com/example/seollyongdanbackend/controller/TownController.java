@@ -1,10 +1,7 @@
 package com.example.seollyongdanbackend.controller;
 
 
-import com.example.seollyongdanbackend.dto.TownCrimeFrequencyResponseDto;
-import com.example.seollyongdanbackend.dto.TownPropertiesResponseDto;
-import com.example.seollyongdanbackend.dto.TownSafetyRankResponseDto;
-import com.example.seollyongdanbackend.dto.TownSafetyResponseDto;
+import com.example.seollyongdanbackend.dto.*;
 import com.example.seollyongdanbackend.service.TownService;
 import org.springframework.web.bind.annotation.*;
 
@@ -40,5 +37,9 @@ public class TownController {
         return townService.getPropertiesInfo(townId);
     }
 
+    @GetMapping("/congestion")
+    public List<TownRoadCongestionResponseDto> getAllRoadCongestion() {
+        return townService.getAllRoadCongestion();
+    }
 
 }
