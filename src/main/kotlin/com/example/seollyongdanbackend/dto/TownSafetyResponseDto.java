@@ -15,8 +15,6 @@ public class TownSafetyResponseDto {
     private Integer policeStations;
     private Integer fireStations;
 
-    private Float safetyScore;
-    private Integer safetyRank;
 
     public TownSafetyResponseDto(Town town) {
         this.townId = town.getTownId();
@@ -33,8 +31,5 @@ public class TownSafetyResponseDto {
         this.cctvCount = town.getCctvCount();
         this.policeStations = town.getPoliceStations();
         this.fireStations = town.getFireStations();
-
-        this.safetyScore = town.getSafetyScore();
-        this.safetyRank = town.getSafetyRank();
     }
 }

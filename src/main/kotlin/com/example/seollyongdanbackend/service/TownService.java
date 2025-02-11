@@ -2,10 +2,14 @@ package com.example.seollyongdanbackend.service;
 
 import com.example.seollyongdanbackend.dto.TownPropertiesResponseDto;
 import com.example.seollyongdanbackend.dto.TownSafetyResponseDto;
+import com.example.seollyongdanbackend.dto.TownCrimeFrequencyResponseDto;
 import com.example.seollyongdanbackend.entity.Town;
 import com.example.seollyongdanbackend.repository.TownRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class TownService {
@@ -13,6 +17,13 @@ public class TownService {
 
     public TownService(TownRepository townRepository) {
         this.townRepository = townRepository;
+    }
+
+    public List<TownCrimeFrequencyResponseDto> getCrimeFrequencies() {
+        List<Town> towns = townRepository.findAll();
+        return towns.stream()
+                .map(TownCrimeFrequencyResponseDto::new)
+                .collect(Collectors.toList());
     }
 
     @Transactional(readOnly = true)

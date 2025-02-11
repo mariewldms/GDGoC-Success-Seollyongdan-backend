@@ -1,10 +1,13 @@
 package com.example.seollyongdanbackend.controller;
 
 
+import com.example.seollyongdanbackend.dto.TownCrimeFrequencyResponseDto;
 import com.example.seollyongdanbackend.dto.TownPropertiesResponseDto;
 import com.example.seollyongdanbackend.dto.TownSafetyResponseDto;
 import com.example.seollyongdanbackend.service.TownService;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/town")
@@ -13,6 +16,11 @@ public class TownController {
 
     public TownController(TownService townService) {
         this.townService = townService;
+    }
+
+    @GetMapping("/crime-freq")
+    public List<TownCrimeFrequencyResponseDto> getCrimeFrequencies() {
+        return townService.getCrimeFrequencies();
     }
 
     @GetMapping("/{town-id}/safety")
