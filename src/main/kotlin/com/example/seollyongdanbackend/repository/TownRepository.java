@@ -7,4 +7,6 @@ import java.util.List;
 
 public interface TownRepository extends JpaRepository<Town, Long> {
     List<Town> findAll(); // 전체 자치구 조회
+    List<Town> findTop5ByOrderBySafetyRankAsc();
+
 }
