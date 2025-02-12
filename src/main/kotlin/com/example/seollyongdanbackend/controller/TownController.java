@@ -57,4 +57,9 @@ public class TownController {
         return townService.getTop5CulturalTowns();
     }
 
+    @GetMapping("/{town-id}/commercial")
+    public CommercialDistrictResponseDto getCommercialDistrict(@PathVariable("town-id") Long townId) {
+        return townService.getCommercialDistrict(townId);
+    }
+
 }
