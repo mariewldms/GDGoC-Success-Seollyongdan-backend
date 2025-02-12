@@ -12,4 +12,5 @@ public interface TownRepository extends JpaRepository<Town, Long> {
     // 특정 자치구의 대중교통 이용 정보 조회
     Optional<Town> findByTownId(Long townId);
     List<Town> findTop5ByOrderByCongestionRankAsc();
+    List<Town> findTop5ByOrderByFacilityRankAsc();
 }

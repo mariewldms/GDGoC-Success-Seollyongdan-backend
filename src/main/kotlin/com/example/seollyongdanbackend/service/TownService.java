@@ -70,5 +70,13 @@ public class TownService {
                 .map(TopCongestedTownsResponseDto::new)
                 .collect(Collectors.toList());
     }
+
+    // 문화체육시설이 많은 상위 5개 자치구 조회
+    public List<TopCulturalTownsResponseDto> getTop5CulturalTowns() {
+        List<Town> topTowns = townRepository.findTop5ByOrderByFacilityRankAsc();
+        return topTowns.stream()
+                .map(TopCulturalTownsResponseDto::new)
+                .collect(Collectors.toList());
+    }
 }
 
