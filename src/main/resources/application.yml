@@ -1,0 +1,28 @@
+server:
+  post: 8080
+  error:
+    whitelabel:
+      enabled: false
+    include-message: always
+
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/success?useSSL=false&serverTimezone=UTC&characterEncoding=UTF-8
+    username: root
+    password: 1111
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  thymeleaf:
+    check-template-location: false
+
+  jpa:
+    open-in-view: false  # ✅ DB 연결을 뷰 렌더링까지 유지하지 않음 (최적화)
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        format_sql: true  # SQL 로그 보기
+        show_sql: true  # SQL 실행 로그 출력
+
+  logging:
+    level:
+      org.hibernate.SQL: debug  # ✅ (선택) SQL 실행 쿼리를 더 상세하게 출력
