@@ -55,5 +55,12 @@ public class TownService {
                 .map(TownRoadCongestionResponseDto::new)
                 .collect(Collectors.toList());
     }
+
+    public TownTransportResponseDto getTransportInfo(Long townId) {
+        Town town = townRepository.findByTownId(townId)
+                .orElseThrow(() -> new IllegalArgumentException("해당 자치구가 존재하지 않습니다. ID: " + townId));
+
+        return new TownTransportResponseDto(town);
+    }
 }
 

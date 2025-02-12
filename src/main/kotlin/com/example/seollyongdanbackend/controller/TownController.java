@@ -42,4 +42,9 @@ public class TownController {
         return townService.getAllRoadCongestion();
     }
 
+    @GetMapping("/{town-id}/transport")
+    public TownTransportResponseDto getTransportInfo(@PathVariable("town-id") Long townId) {
+        return townService.getTransportInfo(townId);
+    }
+
 }
