@@ -47,4 +47,9 @@ public class TownController {
         return townService.getTransportInfo(townId);
     }
 
+    @GetMapping("/congestion/top5")
+    public List<TopCongestedTownsResponseDto> getTop5CongestedTowns() {
+        return townService.getTop5CongestedTowns();
+    }
+
 }
