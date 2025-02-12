@@ -1,1 +1,0 @@
-# GDGoC-Success-Seollyongdan-backend
