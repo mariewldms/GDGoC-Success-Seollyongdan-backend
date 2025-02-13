@@ -35,4 +35,20 @@ public class Preference {
         this.clustering = clustering;
     }
 
+    // Getters & Setters
+    public Long getId() { return prefer_id; }
+    public String getSafety() { return safety; }
+    public String getTraffic() { return traffic; }
+    public String getReal_estate() { return real_estate; }
+    public String getAmenities() { return amenities; }
+    public String getClustering() { return clustering; }
+
+    public void setId(Long id) { this.prefer_id = id; }
+    public void setSafety(String safety) { this.safety = safety; }
+    public void setTraffic(String traffic) { this.traffic = traffic; }
+    public void setReal_estate(String real_estate) {this.real_estate = real_estate; }
+    public void setAmenities(String amenities) {this.amenities = amenities; }
+    public void setClustering(String clustering) { this.clustering = clustering; }
+
+
 }
