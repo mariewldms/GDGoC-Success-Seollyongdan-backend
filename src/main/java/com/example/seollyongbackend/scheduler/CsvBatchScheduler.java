@@ -23,9 +23,5 @@ public class CsvBatchScheduler {
         csvClusterBatchService.processCsv();
     }
 
-//    @Scheduled(fixedRate= 36000000)
-//    public void runClusterBatch() {
-//        //System.out.println("CSV 배치 실행 중...");
-//        csvClusterBatchService.processCsv();
-//    }
+
 }
