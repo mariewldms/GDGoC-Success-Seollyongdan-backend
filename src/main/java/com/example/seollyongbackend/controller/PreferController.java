@@ -13,6 +13,10 @@ import java.util.Optional;
 public class PreferController {
     private PreferService preferService;
 
+    public PreferController(PreferService preferService) {
+        this.preferService = preferService;
+    }
+
     @PostMapping("/preference")
     public Optional<Cluster> postPreference(@RequestBody GetPreferenceDto getPreferenceDto){
         return preferService.findCluster(getPreferenceDto);

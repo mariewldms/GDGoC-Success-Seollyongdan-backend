@@ -5,9 +5,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
-//배치 사용
-//@EnableBatchProcessing
-@SpringBootApplication()
+
+@SpringBootApplication
 @EnableScheduling
 public class SeollyongbackendApplication {
 

@@ -30,13 +30,13 @@ import java.util.List;
 //@EnableWebSecurity
 public class SecurityConfig {
 
-//    private final JwtAuthenticationFilter jwtAuthenticationFilter;
-//    private final UserService userService;
+    private final JwtAuthenticationFilter jwtAuthenticationFilter;
+    private final UserService userService;
 
-//    public SecurityConfig(JwtAuthenticationFilter jwtAuthenticationFilter, @Lazy UserService userService) {
-//        this.jwtAuthenticationFilter = jwtAuthenticationFilter;
-//        this.userService = userService;
-//    }
+    public SecurityConfig(JwtAuthenticationFilter jwtAuthenticationFilter, @Lazy UserService userService) {
+        this.jwtAuthenticationFilter = jwtAuthenticationFilter;
+        this.userService = userService;
+    }
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -51,51 +51,35 @@ public class SecurityConfig {
         return authConfig.getAuthenticationManager();
     }
 
+
+
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                .csrf(csrf -> csrf.disable()) // CSRF 비활성화
+                .cors(cors -> cors.configurationSource(corsConfigurationSource()))
+                .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
-                        .anyRequest().permitAll() // 모든 요청 인증 없이 허용
+                        .requestMatchers(
+                                "/api/users/signup",
+                                "/api/users/login",
+                                "/api/users/check-username",
+                                "/api/users/check-nickname"
+                        ).permitAll()
+                        .requestMatchers(
+                                "/api/users/find-username",
+                                "/api/users/reset-password"
+                        ).authenticated()
+                        .anyRequest().authenticated()
                 )
-                .headers(headers -> headers.frameOptions(frameOptions -> frameOptions.sameOrigin())); // 6.1+ 적용 방식
+                .exceptionHandling(exception -> exception
+                        .authenticationEntryPoint(customAuthenticationEntryPoint())
+                        .accessDeniedHandler(customAccessDeniedHandler())
+                )
+                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }
-
-
-
-
-
-
-
-//    @Bean
-//    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-//        http
-//                .cors(cors -> cors.configurationSource(corsConfigurationSource()))
-//                .csrf(csrf -> csrf.disable())
-//                .authorizeHttpRequests(auth -> auth
-//                        .requestMatchers(
-//                                "/api/users/signup",
-//                                "/api/users/login",
-//                                "/api/users/check-username",
-//                                "/api/users/check-nickname"
-//                        ).permitAll()
-//                        .requestMatchers(
-//                                "/api/users/find-username",
-//                                "/api/users/reset-password"
-//                        ).authenticated()
-//                        .anyRequest().authenticated()
-//                )
-//                .exceptionHandling(exception -> exception
-//                        .authenticationEntryPoint(customAuthenticationEntryPoint())
-//                        .accessDeniedHandler(customAccessDeniedHandler())
-//                )
-//                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-//                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
-//
-//        return http.build();
-//    }
 
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
