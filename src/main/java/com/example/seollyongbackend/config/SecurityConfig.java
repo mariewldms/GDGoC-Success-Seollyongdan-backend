@@ -7,10 +7,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Lazy; // 추가됨
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -25,16 +27,16 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import java.util.List;
 
 @Configuration
-@EnableWebSecurity
+//@EnableWebSecurity
 public class SecurityConfig {
 
-    private final JwtAuthenticationFilter jwtAuthenticationFilter;
-    private final UserService userService;
+//    private final JwtAuthenticationFilter jwtAuthenticationFilter;
+//    private final UserService userService;
 
-    public SecurityConfig(JwtAuthenticationFilter jwtAuthenticationFilter, @Lazy UserService userService) {
-        this.jwtAuthenticationFilter = jwtAuthenticationFilter;
-        this.userService = userService;
-    }
+//    public SecurityConfig(JwtAuthenticationFilter jwtAuthenticationFilter, @Lazy UserService userService) {
+//        this.jwtAuthenticationFilter = jwtAuthenticationFilter;
+//        this.userService = userService;
+//    }
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -52,30 +54,48 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                .cors(cors -> cors.configurationSource(corsConfigurationSource()))
-                .csrf(csrf -> csrf.disable())
+                .csrf(csrf -> csrf.disable()) // CSRF 비활성화
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers(
-                                "/api/users/signup",
-                                "/api/users/login",
-                                "/api/users/check-username",
-                                "/api/users/check-nickname"
-                        ).permitAll()
-                        .requestMatchers(
-                                "/api/users/find-username",
-                                "/api/users/reset-password"
-                        ).authenticated()
-                        .anyRequest().authenticated()
+                        .anyRequest().permitAll() // 모든 요청 인증 없이 허용
                 )
-                .exceptionHandling(exception -> exception
-                        .authenticationEntryPoint(customAuthenticationEntryPoint())
-                        .accessDeniedHandler(customAccessDeniedHandler())
-                )
-                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
+                .headers(headers -> headers.frameOptions(frameOptions -> frameOptions.sameOrigin())); // 6.1+ 적용 방식
 
         return http.build();
     }
+
+
+
+
+
+
+
+//    @Bean
+//    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+//        http
+//                .cors(cors -> cors.configurationSource(corsConfigurationSource()))
+//                .csrf(csrf -> csrf.disable())
+//                .authorizeHttpRequests(auth -> auth
+//                        .requestMatchers(
+//                                "/api/users/signup",
+//                                "/api/users/login",
+//                                "/api/users/check-username",
+//                                "/api/users/check-nickname"
+//                        ).permitAll()
+//                        .requestMatchers(
+//                                "/api/users/find-username",
+//                                "/api/users/reset-password"
+//                        ).authenticated()
+//                        .anyRequest().authenticated()
+//                )
+//                .exceptionHandling(exception -> exception
+//                        .authenticationEntryPoint(customAuthenticationEntryPoint())
+//                        .accessDeniedHandler(customAccessDeniedHandler())
+//                )
+//                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+//                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
+//
+//        return http.build();
+//    }
 
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
@@ -101,4 +121,7 @@ public class SecurityConfig {
         return (request, response, accessDeniedException) ->
                 response.sendError(HttpServletResponse.SC_FORBIDDEN, "접근이 거부되었습니다.");
     }
+
+
+
 }
