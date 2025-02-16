@@ -9,7 +9,6 @@ public class Preference {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long prefer_id;
 
-    //상관없음:1. 중요:2, 매우중요:3
     @Column(nullable = false)
     private String safety;
 

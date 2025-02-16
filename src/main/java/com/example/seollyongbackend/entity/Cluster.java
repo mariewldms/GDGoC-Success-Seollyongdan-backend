@@ -1,6 +1,10 @@
 package com.example.seollyongbackend.entity;
 
+import com.fasterxml.jackson.annotation.JsonGetter;
 import jakarta.persistence.*;
+
+import java.util.Arrays;
+import java.util.List;
 
 @Entity
 @Table(name="cluster")
@@ -8,10 +12,10 @@ public class Cluster {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long cluster_id;
+    private Long id;
 
-//    @Column(nullable=false)
-//    private String cluster_id;
+    @Column(nullable=false)
+    private String cluster_id;
 
     @Column(nullable = false)
     private String safety;
@@ -39,7 +43,7 @@ public class Cluster {
 
     public Cluster(){}
 
-    public Cluster(Long cluster_id, String safety, String traffic, String real_estate, String amenities, String description, String town, String animal, String animal_description) {
+    public Cluster(String cluster_id, String safety, String traffic, String real_estate, String amenities, String description, String town, String animal, String animal_description) {
         this.cluster_id = cluster_id;
         this.safety = safety;
         this.traffic = traffic;
@@ -52,8 +56,21 @@ public class Cluster {
 
     }
 
+    // JSON 응답에서 `town`을 List<String> 형태로 변환하여 반환
+    @JsonGetter("town")
+    public List<String> getTownAsList() {
+        return Arrays.asList(town.split(" ")); // 공백(" ") 기준으로 리스트 변환
+    }
+
+    @JsonGetter("animal_description")
+    public List<String> getAnimalDescriptionAsList() {
+        return Arrays.asList(animal_description.split("/"));
+    }
+
+
+
     // Getters & Setters
-    public Long getCluster_id() { return cluster_id; }
+    public String getCluster_id() { return cluster_id; }
     public String getSafety() { return safety; }
     public String getTraffic() { return traffic; }
     public String getReal_estate() { return real_estate; }
@@ -63,7 +80,7 @@ public class Cluster {
     public String getAnimal() { return animal; }
     public String getAnimal_description() { return animal_description; }
 
-    public void setCluster_id(Long cluster_id) { this.cluster_id = cluster_id; }
+    public void setCluster_id(String cluster_id) { this.cluster_id = cluster_id; }
     public void setSafety(String safety) { this.safety = safety; }
     public void setTraffic(String traffic) { this.traffic = traffic; }
     public void setReal_estate(String real_estate) {this.real_estate = real_estate; }

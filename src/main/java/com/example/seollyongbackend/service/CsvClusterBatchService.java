@@ -37,7 +37,7 @@ public class CsvClusterBatchService {
                 String[] fields = line.split(",");
 
                 Cluster cluster=new Cluster();
-                //cluster.setCluster_id(Long.parseLong(fields[1].trim())+1);
+                cluster.setCluster_id(fields[1].trim());
                 cluster.setSafety(fields[2].trim());
                 cluster.setTraffic(fields[3].trim());
                 cluster.setReal_estate(fields[4].trim());

@@ -27,7 +27,7 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import java.util.List;
 
 @Configuration
-//@EnableWebSecurity
+@EnableWebSecurity
 public class SecurityConfig {
 
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
@@ -50,7 +50,6 @@ public class SecurityConfig {
     public AuthenticationManager authenticationManager() throws Exception {
         return authConfig.getAuthenticationManager();
     }
-
 
 
     @Bean
