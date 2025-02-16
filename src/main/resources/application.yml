@@ -15,6 +15,7 @@ spring:
     check-template-location: false
 
   jpa:
+    database-platform: org.hibernate.dialect.MySQLDialect
     open-in-view: false  # ✅ DB 연결을 뷰 렌더링까지 유지하지 않음 (최적화)
     hibernate:
       ddl-auto: update
