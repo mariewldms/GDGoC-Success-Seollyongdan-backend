@@ -1,8 +1,8 @@
 package com.example.seollyongbackend.controller;
 
 
-import com.example.seollyongdanbackend.dto.*;
-import com.example.seollyongdanbackend.service.TownService;
+import com.example.seollyongbackend.dto.*;
+import com.example.seollyongbackend.service.TownService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;

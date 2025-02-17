@@ -1,8 +1,8 @@
 package com.example.seollyongbackend.service;
 
-import com.example.seollyongdanbackend.dto.*;
-import com.example.seollyongdanbackend.entity.Town;
-import com.example.seollyongdanbackend.repository.TownRepository;
+import com.example.seollyongbackend.dto.*;
+import com.example.seollyongbackend.entity.Town;
+import com.example.seollyongbackend.repository.TownRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

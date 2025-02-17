@@ -1,6 +1,6 @@
 package com.example.seollyongbackend.dto;
 
-import com.example.seollyongdanbackend.entity.Town;
+import com.example.seollyongbackend.entity.Town;
 import lombok.Getter;
 
 @Getter
