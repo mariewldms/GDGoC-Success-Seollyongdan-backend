@@ -1,4 +1,4 @@
-package com.example.seollyongdanbackend.dto;
+package com.example.seollyongbackend.dto;
 
 
 import com.example.seollyongdanbackend.entity.Town;

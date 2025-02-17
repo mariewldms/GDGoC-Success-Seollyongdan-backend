@@ -1,4 +1,4 @@
-package com.example.seollyongdanbackend.service;
+package com.example.seollyongbackend.service;
 
 import com.example.seollyongdanbackend.dto.*;
 import com.example.seollyongdanbackend.entity.Town;

@@ -1,4 +1,4 @@
-package com.example.seollyongdanbackend.controller;
+package com.example.seollyongbackend.controller;
 
 
 import com.example.seollyongdanbackend.dto.*;

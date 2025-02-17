@@ -1,4 +1,4 @@
-package com.example.seollyongdanbackend.repository;
+package com.example.seollyongbackend.repository;
 
 import com.example.seollyongdanbackend.entity.Town;
 import org.springframework.data.jpa.repository.JpaRepository;
