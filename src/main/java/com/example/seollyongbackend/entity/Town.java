@@ -3,9 +3,11 @@ package com.example.seollyongbackend.entity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
 @Getter
+@Setter
 @NoArgsConstructor
 @Table(name = "town")
 public class Town {
@@ -66,7 +68,7 @@ public class Town {
     @Column(length = 50)
     private String mostUsedTransport;
 
-    private Integer congestionScore;
+    private Float congestionScore;
 
     @Column(length = 20)
     private String roadCongestion;

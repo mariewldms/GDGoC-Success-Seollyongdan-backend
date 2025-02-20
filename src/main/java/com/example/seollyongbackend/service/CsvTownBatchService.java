@@ -47,33 +47,33 @@ public class CsvTownBatchService {
                 town.setCrime2021(Integer.parseInt(fields[9].trim()));
                 town.setCrime2022(Integer.parseInt(fields[10].trim()));
                 town.setCrime2023(Integer.parseInt(fields[11].trim()));
-                town.setCrimeFrequency(fields[12].trim());
+                town.setCrimeFrequency(fields[12].trim()); // Assuming this is a string
                 town.setCctvCount(Integer.parseInt(fields[13].trim()));
                 town.setPoliceStations(Integer.parseInt(fields[14].trim()));
                 town.setFireStations(Integer.parseInt(fields[15].trim()));
-                town.setSafetyScore(Float.parseFloat(fields[16].trim()));
+                town.setSafetyScore(Float.parseFloat(fields[16].trim())); // Changed to Float
                 town.setSafetyRank(Integer.parseInt(fields[17].trim()));
-                town.setMonthlyRent(Float.parseFloat(fields[18].trim()));
-                town.setYearlyRent(Float.parseFloat(fields[19].trim()));
-                town.setSale2401(Float.parseFloat(fields[20].trim()));
-                town.setSale2402(Float.parseFloat(fields[21].trim()));
-                town.setSale2403(Float.parseFloat(fields[22].trim()));
-                town.setSale2404(Float.parseFloat(fields[23].trim()));
-                town.setSale2405(Float.parseFloat(fields[24].trim()));
-                town.setSale2406(Float.parseFloat(fields[25].trim()));
-                town.setSale2407(Float.parseFloat(fields[26].trim()));
-                town.setSale2408(Float.parseFloat(fields[27].trim()));
-                town.setSale2409(Float.parseFloat(fields[28].trim()));
-                town.setSale2410(Float.parseFloat(fields[29].trim()));
-                town.setSale2411(Float.parseFloat(fields[30].trim()));
-                town.setSale2412(Float.parseFloat(fields[31].trim()));
-                town.setSale2501(Float.parseFloat(fields[32].trim()));
-                town.setPriceDifference1y(Float.parseFloat(fields[33].trim()));
-                town.setBusRatio(Float.parseFloat(fields[34].trim()));
-                town.setSubwayRatio(Float.parseFloat(fields[35].trim()));
-                town.setTaxiRatio(Float.parseFloat(fields[36].trim()));
+                town.setMonthlyRent(Float.parseFloat(fields[18].trim())); // Changed to Float
+                town.setYearlyRent(Float.parseFloat(fields[19].trim())); // Changed to Float
+                town.setSale2401(Float.parseFloat(fields[20].trim())); // Changed to Float
+                town.setSale2402(Float.parseFloat(fields[21].trim())); // Changed to Float
+                town.setSale2403(Float.parseFloat(fields[22].trim())); // Changed to Float
+                town.setSale2404(Float.parseFloat(fields[23].trim())); // Changed to Float
+                town.setSale2405(Float.parseFloat(fields[24].trim())); // Changed to Float
+                town.setSale2406(Float.parseFloat(fields[25].trim())); // Changed to Float
+                town.setSale2407(Float.parseFloat(fields[26].trim())); // Changed to Float
+                town.setSale2408(Float.parseFloat(fields[27].trim())); // Changed to Float
+                town.setSale2409(Float.parseFloat(fields[28].trim())); // Changed to Float
+                town.setSale2410(Float.parseFloat(fields[29].trim())); // Changed to Float
+                town.setSale2411(Float.parseFloat(fields[30].trim())); // Changed to Float
+                town.setSale2412(Float.parseFloat(fields[31].trim())); // Changed to Float
+                town.setSale2501(Float.parseFloat(fields[32].trim())); // Changed to Float
+                town.setPriceDifference1y(Float.parseFloat(fields[33].trim())); // Changed to Float
+                town.setBusRatio(Float.parseFloat(fields[34].trim())); // Changed to Float
+                town.setSubwayRatio(Float.parseFloat(fields[35].trim())); // Changed to Float
+                town.setTaxiRatio(Float.parseFloat(fields[36].trim())); // Changed to Float
                 town.setMostUsedTransport(fields[37].trim());
-                town.setCongestionScore(Integer.parseInt(fields[38].trim()));
+                town.setCongestionScore(Float.parseFloat(fields[38].trim()));
                 town.setRoadCongestion(fields[39].trim());
                 town.setCongestionRank(Integer.parseInt(fields[40].trim()));
                 town.setTop1Commercial(fields[41].trim());
