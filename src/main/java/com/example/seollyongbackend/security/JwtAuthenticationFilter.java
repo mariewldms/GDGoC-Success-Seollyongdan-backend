@@ -18,12 +18,21 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
+import java.util.List;
 
 @Component
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     private final JwtUtil jwtUtil;
     private final ObjectProvider<UserService> userServiceProvider;
+
+    // JWT 검사를 제외할 엔드포인트 목록
+    private static final List<String> EXCLUDED_ENDPOINTS = List.of(
+            "/api/users/login",
+            "/api/users/signup",
+            "/api/users/check-username",
+            "/api/users/check-nickname"
+    );
 
     public JwtAuthenticationFilter(JwtUtil jwtUtil, ObjectProvider<UserService> userServiceProvider) {
         this.jwtUtil = jwtUtil;
@@ -41,12 +50,9 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         String requestURI = request.getRequestURI();
         System.out.println("Incoming Request URI: " + requestURI); // ✅ 요청 URI 로그 추가
 
-        // 로그인, 회원가입, 중복 확인 API는 인증 제외
-        if (requestURI.startsWith("/api/users/login") ||
-                requestURI.startsWith("/api/users/signup") ||
-                requestURI.startsWith("/api/users/check-username") ||
-                requestURI.startsWith("/api/users/check-nickname")) {
-            System.out.println("Skipping JWT filter for: " + requestURI); // ✅ 인증 제외된 경로 로그
+        // 예외 처리할 엔드포인트인지 확인
+        if (EXCLUDED_ENDPOINTS.contains(requestURI)) {
+            System.out.println("Skipping JWT filter for: " + requestURI);
             filterChain.doFilter(request, response);
             return;
         }
