@@ -59,6 +59,9 @@ public class SecurityConfig {
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
+                        .requestMatchers(
+                                "/swagger-ui/**", "/swagger-ui.html", "/v3/api-docs/**" // ✅ Swagger UI 인증 없이 허용
+                        ).permitAll()
                         .requestMatchers("/api/users/find-username", "/api/users/reset-password").authenticated()
                         .anyRequest().permitAll()
                 )
