@@ -31,7 +31,11 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             "/api/users/login",
             "/api/users/signup",
             "/api/users/check-username",
-            "/api/users/check-nickname"
+            "/api/users/check-nickname",
+            "/swagger-ui",
+            "/swagger-ui/",
+            "/swagger-ui.html",
+            "/v3/api-docs"
     );
 
     public JwtAuthenticationFilter(JwtUtil jwtUtil, ObjectProvider<UserService> userServiceProvider) {
