@@ -55,11 +55,12 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         System.out.println("Incoming Request URI: " + requestURI); // ✅ 요청 URI 로그 추가
 
         // 예외 처리할 엔드포인트인지 확인
-        if (EXCLUDED_ENDPOINTS.contains(requestURI)) {
+        if (EXCLUDED_ENDPOINTS.contains(requestURI) || requestURI.startsWith("/swagger-ui/") || requestURI.startsWith("/v3/api-docs")) {
             System.out.println("Skipping JWT filter for: " + requestURI);
             filterChain.doFilter(request, response);
             return;
         }
+
 
         try {
             String token = getTokenFromRequest(request);
