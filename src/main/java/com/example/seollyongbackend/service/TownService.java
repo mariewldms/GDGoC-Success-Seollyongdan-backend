@@ -55,14 +55,6 @@ public class TownService {
         return new TownTransportResponseDto(town);
     }
 
-    // 혼잡도 순위 상위 5개 자치구 조회
-    public List<TopCongestedTownsResponseDto> getTop5CongestedTowns() {
-        List<Town> topTowns = townRepository.findTop5ByOrderByCongestionRankAsc();
-        return topTowns.stream()
-                .map(TopCongestedTownsResponseDto::new)
-                .collect(Collectors.toList());
-    }
-
     // 문화체육시설이 많은 상위 5개 자치구 조회
     public List<TopCulturalTownsResponseDto> getTop5CulturalTowns() {
         List<Town> topTowns = townRepository.findTop5ByOrderByFacilityRankAsc();
