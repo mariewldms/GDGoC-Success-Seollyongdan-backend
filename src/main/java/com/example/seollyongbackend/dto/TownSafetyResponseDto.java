@@ -9,7 +9,6 @@ public class TownSafetyResponseDto {
     private String townName;
 
     private Integer[] crimeData;
-    private String crimeFrequency;
 
     private Integer cctvCount;
     private Integer policeStations;
@@ -26,7 +25,6 @@ public class TownSafetyResponseDto {
                 town.getCrime2020(), town.getCrime2021(), town.getCrime2022(),
                 town.getCrime2023()
         };
-        this.crimeFrequency = town.getCrimeFrequency();
 
         this.cctvCount = town.getCctvCount();
         this.policeStations = town.getPoliceStations();
