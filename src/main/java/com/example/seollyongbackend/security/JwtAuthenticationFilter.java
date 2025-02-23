@@ -48,6 +48,19 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     }
 
     @Override
+    protected boolean shouldNotFilter(HttpServletRequest request) {
+        String path = request.getRequestURI();
+
+        // ✅ GET /posts/** 요청은 JWT 필터를 거치지 않도록 제외
+        if (request.getMethod().equalsIgnoreCase("GET") && path.startsWith("/posts")) {
+            return true;
+        }
+
+        // ✅ 특정 예외 처리 URL 리스트에 포함된 경우도 필터 제외
+        return EXCLUDED_ENDPOINTS.contains(path) || path.startsWith("/swagger-ui/") || path.startsWith("/v3/api-docs");
+    }
+
+    @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
 
