@@ -32,14 +32,6 @@ public class TownService {
         return new TownSafetyResponseDto(town);
     }
 
-    // 안전 순위 상위 5개 자치구 조회
-    public List<TownSafetyRankResponseDto> getTop5SafeTowns() {
-        List<Town> towns = townRepository.findTop5ByOrderBySafetyRankAsc();
-        return towns.stream()
-                .map(TownSafetyRankResponseDto::new)
-                .collect(Collectors.toList());
-    }
-
     @Transactional(readOnly = true)
     public TownPropertiesResponseDto getPropertiesInfo(Long townId) {
         Town town = townRepository.findById(townId)

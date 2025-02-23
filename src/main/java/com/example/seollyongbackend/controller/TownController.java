@@ -26,12 +26,6 @@ public class TownController {
         return townService.getSafetyInfo(townId);
     }
 
-    @GetMapping("/safety/top5")
-    public List<TownSafetyRankResponseDto> getTop5SafeTowns() {
-        return townService.getTop5SafeTowns();
-    }
-
-
     @GetMapping("/{town-id}/properties")
     public TownPropertiesResponseDto getTownProperties(@PathVariable("town-id") Long townId) {
         return townService.getPropertiesInfo(townId);
