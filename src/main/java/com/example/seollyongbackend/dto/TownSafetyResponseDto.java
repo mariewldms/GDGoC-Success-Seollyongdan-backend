@@ -6,7 +6,6 @@ import lombok.Getter;
 @Getter
 public class TownSafetyResponseDto {
     private Long townId;
-    private String townName;
 
     private Integer[] crimeData;
 
@@ -14,10 +13,11 @@ public class TownSafetyResponseDto {
     private Integer policeStations;
     private Integer fireStations;
 
+    private boolean isSafe;
+
 
     public TownSafetyResponseDto(Town town) {
         this.townId = town.getTownId();
-        this.townName = town.getTownName();
 
         this.crimeData = new Integer[]{
                 town.getCrime2014(), town.getCrime2015(), town.getCrime2016(),
@@ -29,5 +29,7 @@ public class TownSafetyResponseDto {
         this.cctvCount = town.getCctvCount();
         this.policeStations = town.getPoliceStations();
         this.fireStations = town.getFireStations();
+
+        this.isSafe = town.getSafetyRank() <= 5;
     }
 }

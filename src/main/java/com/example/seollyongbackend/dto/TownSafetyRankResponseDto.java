@@ -7,15 +7,14 @@ import lombok.Getter;
 public class TownSafetyRankResponseDto {
     private Long townId;
     private String townName;
-    private Integer safetyRank;
-    private Float safetyScore;
+    private boolean isSafe;
+
 
 
     public TownSafetyRankResponseDto(Town town) {
         this.townId = town.getTownId();
         this.townName = town.getTownName();
-        this.safetyRank = town.getSafetyRank();
-        this.safetyScore = town.getSafetyScore();
+        this.isSafe = town.getSafetyRank() <= 5;
     }
 }
 
