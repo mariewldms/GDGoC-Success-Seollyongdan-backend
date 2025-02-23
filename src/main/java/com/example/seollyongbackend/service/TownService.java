@@ -55,19 +55,11 @@ public class TownService {
         return new TownTransportResponseDto(town);
     }
 
-    // 문화체육시설이 많은 상위 5개 자치구 조회
-    public List<TopCulturalTownsResponseDto> getTop5CulturalTowns() {
-        List<Town> topTowns = townRepository.findTop5ByOrderByFacilityRankAsc();
-        return topTowns.stream()
-                .map(TopCulturalTownsResponseDto::new)
-                .collect(Collectors.toList());
-    }
-
     // 특정 자치구의 주요 상권 정보 조회
-    public CommercialDistrictResponseDto getCommercialDistrict(Long townId) {
+    public TownCommercialDistrictResponseDto getCommercialDistrict(Long townId) {
         Town town = townRepository.findByTownId(townId)
                 .orElseThrow(() -> new IllegalArgumentException("해당 자치구가 존재하지 않습니다. ID: " + townId));
-        return new CommercialDistrictResponseDto(town);
+        return new TownCommercialDistrictResponseDto(town);
     }
 }
 

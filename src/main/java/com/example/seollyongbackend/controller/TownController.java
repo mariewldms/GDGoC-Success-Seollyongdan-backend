@@ -41,13 +41,8 @@ public class TownController {
         return townService.getTransportInfo(townId);
     }
 
-    @GetMapping("/facilities/top5")
-    public List<TopCulturalTownsResponseDto> getTop5CulturalTowns() {
-        return townService.getTop5CulturalTowns();
-    }
-
     @GetMapping("/{town-id}/commercial")
-    public CommercialDistrictResponseDto getCommercialDistrict(@PathVariable("town-id") Long townId) {
+    public TownCommercialDistrictResponseDto getCommercialDistrict(@PathVariable("town-id") Long townId) {
         return townService.getCommercialDistrict(townId);
     }
 
