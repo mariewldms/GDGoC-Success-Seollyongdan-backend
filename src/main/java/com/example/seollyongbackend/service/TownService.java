@@ -32,14 +32,6 @@ public class TownService {
         return new TownSafetyResponseDto(town);
     }
 
-    // 안전 순위 상위 5개 자치구 조회
-    public List<TownSafetyRankResponseDto> getTop5SafeTowns() {
-        List<Town> towns = townRepository.findTop5ByOrderBySafetyRankAsc();
-        return towns.stream()
-                .map(TownSafetyRankResponseDto::new)
-                .collect(Collectors.toList());
-    }
-
     @Transactional(readOnly = true)
     public TownPropertiesResponseDto getPropertiesInfo(Long townId) {
         Town town = townRepository.findById(townId)
@@ -63,27 +55,11 @@ public class TownService {
         return new TownTransportResponseDto(town);
     }
 
-    // 혼잡도 순위 상위 5개 자치구 조회
-    public List<TopCongestedTownsResponseDto> getTop5CongestedTowns() {
-        List<Town> topTowns = townRepository.findTop5ByOrderByCongestionRankAsc();
-        return topTowns.stream()
-                .map(TopCongestedTownsResponseDto::new)
-                .collect(Collectors.toList());
-    }
-
-    // 문화체육시설이 많은 상위 5개 자치구 조회
-    public List<TopCulturalTownsResponseDto> getTop5CulturalTowns() {
-        List<Town> topTowns = townRepository.findTop5ByOrderByFacilityRankAsc();
-        return topTowns.stream()
-                .map(TopCulturalTownsResponseDto::new)
-                .collect(Collectors.toList());
-    }
-
     // 특정 자치구의 주요 상권 정보 조회
-    public CommercialDistrictResponseDto getCommercialDistrict(Long townId) {
+    public TownCommercialDistrictResponseDto getCommercialDistrict(Long townId) {
         Town town = townRepository.findByTownId(townId)
                 .orElseThrow(() -> new IllegalArgumentException("해당 자치구가 존재하지 않습니다. ID: " + townId));
-        return new CommercialDistrictResponseDto(town);
+        return new TownCommercialDistrictResponseDto(town);
     }
 }
 
