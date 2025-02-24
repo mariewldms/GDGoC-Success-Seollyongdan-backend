@@ -4,6 +4,7 @@ import com.example.seollyongbackend.dto.CommunityPostDTO;
 import com.example.seollyongbackend.entity.CommunityPost;
 import com.example.seollyongbackend.service.CommunityPostService;
 import com.example.seollyongbackend.dto.CommunityPostRequest;
+import com.example.seollyongbackend.service.PostLikeService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -19,9 +20,11 @@ import java.util.Map;
 public class CommunityPostController {
 
     private final CommunityPostService postService;
+    private final PostLikeService postLikeService;
 
-    public CommunityPostController(CommunityPostService postService) {
+    public CommunityPostController(CommunityPostService postService, PostLikeService postLikeService) {
         this.postService = postService;
+        this.postLikeService = postLikeService;
     }
 
     //게시글 작성
@@ -64,5 +67,22 @@ public class CommunityPostController {
     @GetMapping
     public ResponseEntity<List<CommunityPostDTO>> getAllPosts() {
         return ResponseEntity.ok(postService.getAllPosts());
+    }
+
+    @PostMapping("/{postId}/like")
+    public ResponseEntity<String> likePost(@RequestParam Long userId, @PathVariable Long postId) {
+        postLikeService.likePost(userId, postId);
+        return ResponseEntity.ok("Liked post successfully");
+    }
+
+    @DeleteMapping("/{postId}/unlike")
+    public ResponseEntity<String> unlikePost(@RequestParam Long userId, @PathVariable Long postId) {
+        postLikeService.unlikePost(userId, postId);
+        return ResponseEntity.ok("Unliked post successfully");
+    }
+
+    @GetMapping("/{postId}/likes")
+    public ResponseEntity<Long> getLikeCount(@PathVariable Long postId) {
+        return ResponseEntity.ok(postLikeService.getLikeCount(postId));
     }
 }
