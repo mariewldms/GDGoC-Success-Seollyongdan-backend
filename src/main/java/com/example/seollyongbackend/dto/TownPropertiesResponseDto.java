@@ -6,7 +6,6 @@ import lombok.Getter;
 @Getter
 public class TownPropertiesResponseDto {
     private Long townId;
-    private String townName;
 
     private Float monthlyRent;
     private Float yearlyRent;
@@ -18,7 +17,6 @@ public class TownPropertiesResponseDto {
 
     public TownPropertiesResponseDto(Town town) {
         this.townId = town.getTownId();
-        this.townName = town.getTownName();
         this.monthlyRent = town.getMonthlyRent();
         this.yearlyRent = town.getYearlyRent();
 

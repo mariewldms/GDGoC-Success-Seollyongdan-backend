@@ -4,9 +4,8 @@ import com.example.seollyongbackend.entity.Town;
 import lombok.Getter;
 
 @Getter
-public class CommercialDistrictResponseDto {
+public class TownCommercialDistrictResponseDto {
     private Long townId;
-    private String townName;
 
     private String top1Commercial;
     private String top2Commercial;
@@ -20,9 +19,10 @@ public class CommercialDistrictResponseDto {
     private Integer top4Count;
     private Integer top5Count;
 
-    public CommercialDistrictResponseDto(Town town) {
+    private boolean isCulturalArea;
+
+    public TownCommercialDistrictResponseDto(Town town) {
         this.townId = town.getTownId();
-        this.townName = town.getTownName();
         this.top1Commercial = town.getTop1Commercial();
         this.top2Commercial = town.getTop2Commercial();
         this.top3Commercial = town.getTop3Commercial();
@@ -33,5 +33,7 @@ public class CommercialDistrictResponseDto {
         this.top3Count = town.getTop3Count();
         this.top4Count = town.getTop4Count();
         this.top5Count = town.getTop5Count();
+
+        this.isCulturalArea = town.getFacilityRank() <= 5;
     }
 }

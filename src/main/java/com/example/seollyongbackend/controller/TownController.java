@@ -26,12 +26,6 @@ public class TownController {
         return townService.getSafetyInfo(townId);
     }
 
-    @GetMapping("/safety/top5")
-    public List<TownSafetyRankResponseDto> getTop5SafeTowns() {
-        return townService.getTop5SafeTowns();
-    }
-
-
     @GetMapping("/{town-id}/properties")
     public TownPropertiesResponseDto getTownProperties(@PathVariable("town-id") Long townId) {
         return townService.getPropertiesInfo(townId);
@@ -47,18 +41,8 @@ public class TownController {
         return townService.getTransportInfo(townId);
     }
 
-    @GetMapping("/congestion/top5")
-    public List<TopCongestedTownsResponseDto> getTop5CongestedTowns() {
-        return townService.getTop5CongestedTowns();
-    }
-
-    @GetMapping("/facilities/top5")
-    public List<TopCulturalTownsResponseDto> getTop5CulturalTowns() {
-        return townService.getTop5CulturalTowns();
-    }
-
     @GetMapping("/{town-id}/commercial")
-    public CommercialDistrictResponseDto getCommercialDistrict(@PathVariable("town-id") Long townId) {
+    public TownCommercialDistrictResponseDto getCommercialDistrict(@PathVariable("town-id") Long townId) {
         return townService.getCommercialDistrict(townId);
     }
 
