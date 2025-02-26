@@ -11,7 +11,6 @@ import java.util.Optional;
 
 @Repository
 public interface PreferenceRepository extends JpaRepository<Preference, Long> {
-    //findBy 이름 규칙 지키기
     @Query("SELECT p FROM Preference p WHERE p.safety = :safety AND p.traffic = :traffic AND p.realEstate = :realEstate AND p.amenities = :amenities")
     List<Preference> findByExactMatch(
             @Param("safety") String safety,

@@ -35,6 +35,11 @@ public class CsvTownBatchService {
 
                 String[] fields = line.split(",");
 
+                String townName = fields[1].trim();
+                if (townRepository.existsByTownName(townName)) {
+                    continue; // 이미 존재하면 INSERT 생략
+                }
+
                 Town town = new Town();
                 town.setTownName(fields[1].trim());
                 town.setCrime2014(Integer.parseInt(fields[2].trim()));

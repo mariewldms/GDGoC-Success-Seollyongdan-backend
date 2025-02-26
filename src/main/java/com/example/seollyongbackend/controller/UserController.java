@@ -1,10 +1,16 @@
 package com.example.seollyongbackend.controller;
 
 import com.example.seollyongbackend.dto.*;
+import com.example.seollyongbackend.entity.User;
+import com.example.seollyongbackend.repository.UserRepository;
 import com.example.seollyongbackend.service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -13,9 +19,11 @@ import org.springframework.web.server.ResponseStatusException;
 public class UserController {
 
     private final UserService userService;
+    private final UserRepository userRepository;
 
-    public UserController(UserService userService) {
+    public UserController(UserService userService, UserRepository userRepository) {
         this.userService = userService;
+        this.userRepository = userRepository;
     }
 
     // ✅ 회원가입
@@ -106,4 +114,27 @@ public class UserController {
             this.newPassword = newPassword;
         }
     }
+
+    @GetMapping("/info")
+    public UserInfoResponseDto getUserInfo() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        if (authentication == null || !authentication.isAuthenticated()) {
+            throw new RuntimeException("로그인이 필요합니다.");
+        }
+
+        Object principal = authentication.getPrincipal();
+
+        if (principal instanceof User) {
+            return new UserInfoResponseDto((User) principal);
+        } else if (principal instanceof UserDetails) {
+            // UserDetails로부터 username을 가져와 다시 User 조회
+            String username = ((UserDetails) principal).getUsername();
+            User user = userRepository.findByUsername(username);
+            return new UserInfoResponseDto(user);
+        } else {
+            throw new RuntimeException("유효하지 않은 사용자 정보입니다.");
+        }
+    }
 }
+
