@@ -22,13 +22,18 @@ public class User {
     @Column(nullable = false)
     private String town;
 
+    @Column
+    private boolean resident;
+
+
     public User() {}
 
-    public User(String username, String password, String nickname, String town) {
+    public User(String username, String password, String nickname, String town, boolean resident) {
         this.username = username;
         this.password = password;
         this.nickname = nickname;
         this.town = town;
+        this.resident = resident;
     }
 
     // Getters & Setters
@@ -37,6 +42,7 @@ public class User {
     public String getPassword() { return password; }
     public String getNickname() { return nickname; }
     public String getTown() { return town; }
+    public boolean isResident() { return resident; }
 
     public void setId(Long id) { this.id = id; }
     public void setUsername(String username) { this.username = username; }

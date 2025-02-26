@@ -41,7 +41,7 @@ public class UserService implements UserDetailsService {
         }
 
         String hashedPassword = passwordEncoder.encode(password);
-        User newUser = new User(username, hashedPassword, nickname, town);
+        User newUser = new User(username, hashedPassword, nickname, town, false);
         userRepository.save(newUser);
         return "회원가입이 완료되었습니다.";
     }
