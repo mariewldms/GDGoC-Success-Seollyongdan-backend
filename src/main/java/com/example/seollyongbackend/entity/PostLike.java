@@ -7,7 +7,7 @@ import lombok.*;
 @Getter
 @Setter
 @NoArgsConstructor
-@Table(name = "post_likes", uniqueConstraints = {
+@Table(name = "post_like", uniqueConstraints = {
         @UniqueConstraint(columnNames = {"user_id", "post_id"})
 })
 public class PostLike {
@@ -21,7 +21,7 @@ public class PostLike {
     private User user;
 
     @ManyToOne
-    @JoinColumn(name = "post_id", referencedColumnName = "id", nullable = false)
+    @JoinColumn(name = "post_id", referencedColumnName = "post_id", nullable = false)
     private CommunityPost post;
 
     public PostLike(User user, CommunityPost post) {

@@ -4,11 +4,12 @@ import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "community_posts")
+@Table(name = "post")
 public class CommunityPost {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name =  "post_id")
     private Long id;
 
     @Column(name = "nickname", nullable = false)
