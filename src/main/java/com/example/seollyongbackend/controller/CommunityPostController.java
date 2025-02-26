@@ -72,12 +72,15 @@ public class CommunityPostController {
     @PostMapping("/{postId}/like")
     public ResponseEntity<String> likePost(@RequestParam Long userId, @PathVariable Long postId) {
         postLikeService.likePost(userId, postId);
+        //해당 postId의 like_Count값을 +1하기
+        postLikeService.plusLikeCount(postId);
         return ResponseEntity.ok("Liked post successfully");
     }
 
     @DeleteMapping("/{postId}/unlike")
     public ResponseEntity<String> unlikePost(@RequestParam Long userId, @PathVariable Long postId) {
         postLikeService.unlikePost(userId, postId);
+        postLikeService.minusLikeCount(postId);
         return ResponseEntity.ok("Unliked post successfully");
     }
 
@@ -85,4 +88,5 @@ public class CommunityPostController {
     public ResponseEntity<Long> getLikeCount(@PathVariable Long postId) {
         return ResponseEntity.ok(postLikeService.getLikeCount(postId));
     }
+
 }

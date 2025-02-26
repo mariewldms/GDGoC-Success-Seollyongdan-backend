@@ -18,6 +18,7 @@ public class CommunityPostService {
     private final CommunityPostRepository postRepository;
     private final UserRepository userRepository;
 
+
     public CommunityPostService(CommunityPostRepository postRepository, UserRepository userRepository) {
         this.postRepository = postRepository;
         this.userRepository = userRepository;
@@ -97,4 +98,5 @@ public class CommunityPostService {
 
         return postRepository.save(post);
     }
+
 }

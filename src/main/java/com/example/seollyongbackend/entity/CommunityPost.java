@@ -35,7 +35,7 @@ public class CommunityPost {
     @Column(nullable = false)
     private int likeCount = 0; // 좋아요 수 (기본값 0)
 
-    @Column(nullable = false)
+    @Column(columnDefinition = "integer default 0", nullable = false)
     private int viewCount = 0; // 조회 수 (기본값 0)
 
     @Column(nullable = false)

@@ -1,5 +1,5 @@
 server:
-  post: 8080
+  port: 8080
   error:
     whitelabel:
       enabled: false
@@ -14,15 +14,15 @@ spring:
   thymeleaf:
     check-template-location: false
 
-    jpa:
-      database-platform: org.hibernate.dialect.MySQLDialect
-      open-in-view: false  # ✅ DB 연결을 뷰 렌더링까지 유지하지 않음 (최적화)
+  jpa:
+    database-platform: org.hibernate.dialect.MySQLDialect
+    open-in-view: false  # ✅ DB 연결을 뷰 렌더링까지 유지하지 않음 (최적화)
+    hibernate:
+      ddl-auto: update
+    properties:
       hibernate:
-        ddl-auto: update
-      properties:
-        hibernate:
-          format_sql: true  # SQL 로그 보기
-          show_sql: true  # SQL 실행 로그 출력
+        format_sql: true  # SQL 로그 보기
+        show_sql: true  # SQL 실행 로그 출력
 
     logging:
       level:

@@ -18,6 +18,7 @@ public class PostLikeService {
     private final CommunityPostRepository postRepository;
     private final UserRepository userRepository;
 
+
     @Transactional
     public void likePost(Long userId, Long postId) {
         User user = userRepository.findById(userId)
@@ -52,4 +53,22 @@ public class PostLikeService {
 
         return postLikeRepository.countByPost(post);
     }
+
+    @Transactional
+    public void plusLikeCount(Long postId){
+        CommunityPost post = postRepository.findById(postId)
+                .orElseThrow(() -> new IllegalArgumentException("Post not found"));
+        post.setLikeCount(post.getLikeCount() + 1);
+        postRepository.save(post);
+    }
+
+    @Transactional
+    public void minusLikeCount(Long postId){
+        CommunityPost post = postRepository.findById(postId)
+                .orElseThrow(() -> new IllegalArgumentException("Post not found"));
+        post.setLikeCount(Math.max(post.getLikeCount() - 1, 0));
+        postRepository.save(post);
+    }
+
+
 }
