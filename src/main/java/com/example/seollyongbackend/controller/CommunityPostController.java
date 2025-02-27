@@ -1,5 +1,6 @@
 package com.example.seollyongbackend.controller;
 
+import com.example.seollyongbackend.dto.ApiResponse;
 import com.example.seollyongbackend.dto.CommunityPostDTO;
 import com.example.seollyongbackend.entity.CommunityPost;
 import com.example.seollyongbackend.service.CommunityPostService;
@@ -88,5 +89,13 @@ public class CommunityPostController {
     public ResponseEntity<Long> getLikeCount(@PathVariable Long postId) {
         return ResponseEntity.ok(postLikeService.getLikeCount(postId));
     }
+
+    //keyword를 param으로 받아서 해당 param과 일치하는 게시글 내용이나 제목이 있는지 쿼리로 확인하기
+    @GetMapping("/search")
+    public ResponseEntity<ApiResponse<List<CommunityPostDTO>>> postSearch(@RequestParam(value="district") String district, @RequestParam(value="keyword") String keyword){
+        return ResponseEntity.ok(ApiResponse.success(HttpStatus.OK, postService.searchPosts(district, keyword)));
+    }
+
+
 
 }

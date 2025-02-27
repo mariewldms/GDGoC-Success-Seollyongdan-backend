@@ -116,22 +116,18 @@ public class UserController {
     }
 
     @GetMapping("/info")
-    public UserInfoResponseDto getUserInfo() {
+    public ResponseEntity<ApiResponse<UserInfoResponseDto>> getUserInfo() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
         if (authentication == null || !authentication.isAuthenticated()) {
             throw new RuntimeException("로그인이 필요합니다.");
         }
-
         Object principal = authentication.getPrincipal();
-
-        if (principal instanceof User) {
-            return new UserInfoResponseDto((User) principal);
-        } else if (principal instanceof UserDetails) {
+        if (principal instanceof UserDetails) {
             // UserDetails로부터 username을 가져와 다시 User 조회
             String username = ((UserDetails) principal).getUsername();
             User user = userRepository.findByUsername(username);
-            return new UserInfoResponseDto(user);
+            return ResponseEntity.ok(ApiResponse.success(HttpStatus.OK, new UserInfoResponseDto(user)));
         } else {
             throw new RuntimeException("유효하지 않은 사용자 정보입니다.");
         }
