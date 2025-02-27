@@ -15,6 +15,9 @@ public class ApiResponse<T> {
         this.error = error;
     }
 
+    public ApiResponse(String 댓글_작성_성공, CommentResponseDto commentResponseDto) {
+    }
+
     public static <T> ApiResponse<T> success(HttpStatus status, T result) {
         return new ApiResponse<>(status, true, result, null);
     }

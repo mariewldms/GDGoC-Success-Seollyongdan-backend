@@ -26,7 +26,7 @@ public class Comment {
     private String content;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "post_id", nullable = false)
+    @JoinColumn(name = "post_id",referencedColumnName = "post_id", nullable = false)
     private CommunityPost communityPost;
 
     @CreationTimestamp
@@ -41,5 +41,6 @@ public class Comment {
     public void updateContent(String content) {
         this.content = content;
     }
+
 }
 

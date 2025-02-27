@@ -1,5 +1,6 @@
 package com.example.seollyongbackend.service;
 
+import com.example.seollyongbackend.dto.ApiResponse;
 import com.example.seollyongbackend.dto.CommentRequestDto;
 import com.example.seollyongbackend.dto.CommentResponseDto;
 import com.example.seollyongbackend.entity.Comment;
@@ -8,8 +9,11 @@ import com.example.seollyongbackend.entity.User;
 import com.example.seollyongbackend.repository.CommentRepository;
 import com.example.seollyongbackend.repository.CommunityPostRepository;
 import com.example.seollyongbackend.repository.UserRepository;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
@@ -24,11 +28,17 @@ public class CommentService {
     private final CommentRepository commentRepository;
     private final CommunityPostRepository communityPostRepository;
 
-    public CommentResponseDto createComment(Long postId, CommentRequestDto requestDto) {
-        System.out.println("🔍 조회할 postId: " + postId);
+    @PersistenceContext
+    private EntityManager entityManager;
+
+    public ApiResponse<CommentResponseDto> createComment(Long postId, CommentRequestDto requestDto) {
+        System.out.println("🔍 댓글 생성 요청: postId=" + postId + ", content=" + requestDto.getContent());
+
         CommunityPost communityPost = communityPostRepository.findById(postId)
-                .orElseThrow(() -> new RuntimeException("게시글을 찾을 수 없습니다."));
-        System.out.println("✅ 게시글 찾음: " + communityPost.getTitle());
+                .orElseThrow(() -> {
+                    System.out.println("❌ 게시글을 찾을 수 없음: postId=" + postId);
+                    return new RuntimeException("게시글을 찾을 수 없습니다.");
+                });
 
         Comment comment = Comment.builder()
                 .content(requestDto.getContent())
@@ -37,45 +47,51 @@ public class CommentService {
 
         commentRepository.save(comment);
 
-        return new CommentResponseDto(
+        System.out.println("✅ 댓글 저장 완료: commentId=" + comment.getCommentId());
+
+        return ApiResponse.success(HttpStatus.CREATED, new CommentResponseDto(
                 comment.getCommentId(),
                 comment.getContent(),
                 comment.getCreatedDate(),
                 comment.getModifiedDate()
-        );
+        ));
     }
 
-    public CommentResponseDto updateComment(Long commentId, CommentRequestDto requestDto) {
+
+    public ApiResponse<CommentResponseDto> updateComment(Long commentId, CommentRequestDto requestDto) {
         Comment comment = commentRepository.findById(commentId)
                 .orElseThrow(() -> new RuntimeException("댓글을 찾을 수 없습니다."));
 
         comment.updateContent(requestDto.getContent());
+        entityManager.flush();
+        entityManager.refresh(comment);
 
-        return new CommentResponseDto(
+        return ApiResponse.success(HttpStatus.OK, new CommentResponseDto(
                 comment.getCommentId(),
                 comment.getContent(),
                 comment.getCreatedDate(),
                 comment.getModifiedDate()
-        );
+        ));
     }
 
-    public void deleteComment(Long commentId) {
+    public ApiResponse<Void> deleteComment(Long commentId) {
         Comment comment = commentRepository.findById(commentId)
                 .orElseThrow(() -> new RuntimeException("댓글을 찾을 수 없습니다."));
 
         commentRepository.delete(comment);
+        return ApiResponse.success(HttpStatus.NO_CONTENT, null);
     }
 
-    public List<CommentResponseDto> getCommentsByPostId(Long postId) {
+    public ApiResponse<List<CommentResponseDto>> getCommentsByPostId(Long postId) {
         List<Comment> comments = commentRepository.findByCommunityPost_Id(postId);
 
-        return comments.stream()
+        List<CommentResponseDto> responseList = comments.stream()
                 .map(comment -> new CommentResponseDto(
                         comment.getCommentId(),
                         comment.getContent(),
                         comment.getCreatedDate(),
                         comment.getModifiedDate()))
                 .collect(Collectors.toList());
+        return ApiResponse.success(HttpStatus.OK, responseList);
     }
 }
-

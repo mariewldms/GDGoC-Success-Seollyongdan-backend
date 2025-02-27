@@ -1,5 +1,6 @@
 package com.example.seollyongbackend.controller;
 
+import com.example.seollyongbackend.dto.ApiResponse;
 import com.example.seollyongbackend.dto.CommentRequestDto;
 import com.example.seollyongbackend.dto.CommentResponseDto;
 import com.example.seollyongbackend.service.CommentService;
@@ -19,34 +20,31 @@ public class CommentController {
     private final CommentService commentService;
 
     @PostMapping("/{postId}/comment")
-    public ResponseEntity<CommentResponseDto> createComment(
+    public ResponseEntity<ApiResponse<CommentResponseDto>> createComment(
             @PathVariable("postId") Long postId,
             @RequestBody CommentRequestDto requestDto) {
-
-        CommentResponseDto response = commentService.createComment(postId, requestDto);
-        return ResponseEntity.status(HttpStatus.CREATED).body(response);
+        return ResponseEntity.status(201).body(commentService.createComment(postId, requestDto));
     }
 
     @PutMapping("/{postId}/{commentId}")
-    public ResponseEntity<CommentResponseDto> updateComment(
+    public ResponseEntity<ApiResponse<CommentResponseDto>> updateComment(
             @PathVariable("postId") Long postId,
             @PathVariable("commentId") Long commentId,
             @RequestBody CommentRequestDto requestDto) {
-
-        CommentResponseDto response = commentService.updateComment(commentId, requestDto);
-        return ResponseEntity.ok(response);
+        return ResponseEntity.ok(commentService.updateComment(commentId, requestDto));
     }
 
     @DeleteMapping("/{postId}/{commentId}")
-    public ResponseEntity<Void> deleteComment(@PathVariable("postId") Long postId,@PathVariable("commentId") Long commentId) {
-        commentService.deleteComment(commentId);
+    public ResponseEntity<ApiResponse<Void>> deleteComment(
+            @PathVariable("postId") Long postId,
+            @PathVariable("commentId") Long commentId) {
         return ResponseEntity.noContent().build();
     }
 
     @GetMapping("/{postId}/comments")
-    public ResponseEntity<List<CommentResponseDto>> getCommentsByPostId(@PathVariable("postId") Long postId) {
-        List<CommentResponseDto> comments = commentService.getCommentsByPostId(postId);
-        return ResponseEntity.ok(comments);
+    public ResponseEntity<ApiResponse<List<CommentResponseDto>>> getCommentsByPostId(
+            @PathVariable("postId") Long postId) {
+        return ResponseEntity.ok(commentService.getCommentsByPostId(postId));
     }
 }
 
