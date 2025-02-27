@@ -24,6 +24,12 @@ public class CommunityPostService {
         this.userRepository = userRepository;
     }
 
+    // ✅ 특정 동네의 게시글만 조회하는 메서드 추가
+    public List<CommunityPostDTO> getPostsByDistrict(String postDistrict) {
+        List<CommunityPost> posts = postRepository.findByPostDistrict(postDistrict);
+        return posts.stream().map(CommunityPostDTO::new).collect(Collectors.toList());
+    }
+
     public CommunityPost createPost(CommunityPostRequest request) {
         User user = userRepository.findByNickname(request.getNickName());
 
