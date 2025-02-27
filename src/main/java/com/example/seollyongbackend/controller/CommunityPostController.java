@@ -52,14 +52,14 @@ public class CommunityPostController {
 
     //특정 게시글 조회 : 특정 id의 게시글을 가져오는 API
     @GetMapping("/{id}")
-    public ResponseEntity<CommunityPostDTO> getPostById(@PathVariable Long id) {
-        return ResponseEntity.ok(postService.getPostById(id));
+    public ResponseEntity<ApiResponse<CommunityPostDTO>> getPostById(@PathVariable Long id) {
+        return ResponseEntity.ok(ApiResponse.success(HttpStatus.OK, postService.getPostById(id)));
     }
 
     //게시물 리스트 조회
     @GetMapping
-    public ResponseEntity<List<CommunityPostDTO>> getAllPosts() {
-        return ResponseEntity.ok(postService.getAllPosts());
+    public ResponseEntity<ApiResponse<List<CommunityPostDTO>>> getAllPosts() {
+        return ResponseEntity.ok(ApiResponse.success(HttpStatus.OK, postService.getAllPosts()));
     }
 
     @PostMapping("/{postId}/like")
@@ -87,7 +87,6 @@ public class CommunityPostController {
     public ResponseEntity<ApiResponse<List<CommunityPostDTO>>> postSearch(@RequestParam(value="district") String district, @RequestParam(value="keyword") String keyword){
         return ResponseEntity.ok(ApiResponse.success(HttpStatus.OK, postService.searchPosts(district, keyword)));
     }
-
 
 
     // ✅ 특정 동네의 게시글만 조회하는 API 추가
