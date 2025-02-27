@@ -3,6 +3,8 @@ package com.example.seollyongbackend.controller;
 
 import com.example.seollyongbackend.dto.*;
 import com.example.seollyongbackend.service.TownService;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,33 +19,39 @@ public class TownController {
     }
 
     @GetMapping("/crime-freq")
-    public List<TownCrimeFrequencyResponseDto> getCrimeFrequencies() {
-        return townService.getCrimeFrequencies();
+    public ResponseEntity<ApiResponse<List<TownCrimeFrequencyResponseDto>>> getCrimeFrequencies() {
+        return
+                ResponseEntity.ok(ApiResponse.success(HttpStatus.OK, townService.getCrimeFrequencies()));
     }
 
     @GetMapping("/{town-id}/safety")
-    public TownSafetyResponseDto getTownSafety(@PathVariable("town-id") Long townId) {
-        return townService.getSafetyInfo(townId);
+    public ResponseEntity<ApiResponse<TownSafetyResponseDto>> getTownSafety(@PathVariable("town-id") Long townId) {
+        return
+                ResponseEntity.ok(ApiResponse.success(HttpStatus.OK,townService.getSafetyInfo(townId)));
     }
 
     @GetMapping("/{town-id}/properties")
-    public TownPropertiesResponseDto getTownProperties(@PathVariable("town-id") Long townId) {
-        return townService.getPropertiesInfo(townId);
+    public ResponseEntity<ApiResponse<TownPropertiesResponseDto>> getTownProperties(@PathVariable("town-id") Long townId) {
+        return
+                ResponseEntity.ok(ApiResponse.success(HttpStatus.OK,townService.getPropertiesInfo(townId)));
     }
 
     @GetMapping("/congestion")
-    public List<TownRoadCongestionResponseDto> getAllRoadCongestion() {
-        return townService.getAllRoadCongestion();
+    public ResponseEntity<ApiResponse<List<TownRoadCongestionResponseDto>>> getAllRoadCongestion() {
+        return
+                ResponseEntity.ok(ApiResponse.success(HttpStatus.OK,townService.getAllRoadCongestion()));
     }
 
     @GetMapping("/{town-id}/transport")
-    public TownTransportResponseDto getTransportInfo(@PathVariable("town-id") Long townId) {
-        return townService.getTransportInfo(townId);
+    public ResponseEntity<ApiResponse<TownTransportResponseDto>> getTransportInfo(@PathVariable("town-id") Long townId) {
+        return
+                ResponseEntity.ok(ApiResponse.success(HttpStatus.OK,townService.getTransportInfo(townId)));
     }
 
     @GetMapping("/{town-id}/commercial")
-    public TownCommercialDistrictResponseDto getCommercialDistrict(@PathVariable("town-id") Long townId) {
-        return townService.getCommercialDistrict(townId);
+    public ResponseEntity<ApiResponse<TownCommercialDistrictResponseDto>> getCommercialDistrict(@PathVariable("town-id") Long townId) {
+        return
+                ResponseEntity.ok(ApiResponse.success(HttpStatus.OK,townService.getCommercialDistrict(townId)));
     }
 
 }
