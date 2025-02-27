@@ -82,6 +82,14 @@ public class CommunityPostController {
         return ResponseEntity.ok(ApiResponse.success(HttpStatus.OK, postLikeService.getLikeCount(postId)));
     }
 
+    //keyword를 param으로 받아서 해당 param과 일치하는 게시글 내용이나 제목이 있는지 쿼리로 확인하기
+    @GetMapping("/search")
+    public ResponseEntity<ApiResponse<List<CommunityPostDTO>>> postSearch(@RequestParam(value="district") String district, @RequestParam(value="keyword") String keyword){
+        return ResponseEntity.ok(ApiResponse.success(HttpStatus.OK, postService.searchPosts(district, keyword)));
+    }
+
+
+
     // ✅ 특정 동네의 게시글만 조회하는 API 추가
     @GetMapping("/district/{postDistrict}")
     public ResponseEntity<ApiResponse<List<CommunityPostDTO>>> getPostsByDistrict(@PathVariable String postDistrict) {

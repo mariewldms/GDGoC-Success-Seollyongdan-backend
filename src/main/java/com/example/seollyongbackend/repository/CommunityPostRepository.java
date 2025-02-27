@@ -14,6 +14,8 @@ public interface CommunityPostRepository extends JpaRepository<CommunityPost, Lo
     @Query("update CommunityPost p set p.viewCount = p.viewCount + 1 where p.id = :id")
     int updateView(@Param("id") Integer id);
 
+    @Query(value = "SELECT p FROM CommunityPost p WHERE (p.title LIKE %:keyword% OR p.content LIKE %:keyword% OR p.nickName LIKE %:keyword%) AND p.postDistrict=:district")
+    List<CommunityPost> findAllSearch(String district, String keyword);
     // ✅ 특정 동네(예: "종로구 사직동")의 게시글만 가져오는 메서드 추가
     List<CommunityPost> findByPostDistrict(String postDistrict);
 

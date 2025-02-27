@@ -105,4 +105,13 @@ public class CommunityPostService {
         return postRepository.save(post);
     }
 
+    //post 찾아 list 형태로 반환
+    @Transactional
+    public List<CommunityPostDTO> searchPosts(String district, String keyword) {
+        return postRepository.findAllSearch(district, keyword).stream()
+                .map(CommunityPostDTO::new)
+                .collect(Collectors.toList());
+    }
+
+
 }
