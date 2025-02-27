@@ -89,4 +89,10 @@ public class CommunityPostController {
         return ResponseEntity.ok(postLikeService.getLikeCount(postId));
     }
 
+    // ✅ 특정 동네의 게시글만 조회하는 API 추가
+    @GetMapping("/district/{postDistrict}")
+    public ResponseEntity<List<CommunityPostDTO>> getPostsByDistrict(@PathVariable String postDistrict) {
+        return ResponseEntity.ok(postService.getPostsByDistrict(postDistrict));
+    }
+
 }
