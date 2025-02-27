@@ -1,5 +1,6 @@
 package com.example.seollyongbackend.controller;
 
+import com.example.seollyongbackend.dto.ApiResponse;
 import com.example.seollyongbackend.dto.CommunityPostDTO;
 import com.example.seollyongbackend.entity.CommunityPost;
 import com.example.seollyongbackend.service.CommunityPostService;
@@ -30,31 +31,23 @@ public class CommunityPostController {
     //게시글 작성
     @PostMapping
     @PreAuthorize("hasRole('USER')")
-    public ResponseEntity<CommunityPost> createPost(@RequestBody CommunityPostRequest request) {
-        return ResponseEntity.ok(postService.createPost(request));
+    public ResponseEntity<ApiResponse<CommunityPost>> createPost(@RequestBody CommunityPostRequest request) {
+        return ResponseEntity.ok(ApiResponse.success(HttpStatus.OK, postService.createPost(request)));
     }
 
     //게시글 수정
     @PutMapping("/{id}")
     @PreAuthorize("hasRole('USER')")
-    public ResponseEntity<CommunityPost> updatePost(@PathVariable Long id, @RequestBody CommunityPostRequest request) {
-        return ResponseEntity.ok(postService.updatePost(id, request));
+    public ResponseEntity<ApiResponse<CommunityPost>> updatePost(@PathVariable Long id, @RequestBody CommunityPostRequest request) {
+        return ResponseEntity.ok(ApiResponse.success(HttpStatus.OK, postService.updatePost(id, request)));
     }
 
     //게시물 삭제
     @DeleteMapping("/{id}")
     @PreAuthorize("hasRole('USER')")
-    public ResponseEntity<Map<String, Object>> deletePost(@PathVariable Long id) {
+    public ResponseEntity<ApiResponse<String>> deletePost(@PathVariable Long id) {
         postService.deletePost(id);
-
-        // ✅ JSON 응답을 위한 Map 생성
-        Map<String, Object> response = new HashMap<>();
-        response.put("httpStatus", HttpStatus.OK.value()); // 🔥 OK 상태 코드를 숫자로 반환
-        response.put("success", true);
-        response.put("result", "게시글이 삭제되었습니다.");
-        response.put("error", null);
-
-        return ResponseEntity.ok(response);
+        return ResponseEntity.ok(ApiResponse.success(HttpStatus.OK, "게시글이 삭제되었습니다."));
     }
 
     //특정 게시글 조회 : 특정 id의 게시글을 가져오는 API
@@ -70,29 +63,28 @@ public class CommunityPostController {
     }
 
     @PostMapping("/{postId}/like")
-    public ResponseEntity<String> likePost(@RequestParam Long userId, @PathVariable Long postId) {
+    public ResponseEntity<ApiResponse<String>> likePost(@RequestParam Long userId, @PathVariable Long postId) {
         postLikeService.likePost(userId, postId);
         //해당 postId의 like_Count값을 +1하기
         postLikeService.plusLikeCount(postId);
-        return ResponseEntity.ok("Liked post successfully");
+        return ResponseEntity.ok(ApiResponse.success(HttpStatus.OK, "Liked post successfully"));
     }
 
     @DeleteMapping("/{postId}/unlike")
-    public ResponseEntity<String> unlikePost(@RequestParam Long userId, @PathVariable Long postId) {
+    public ResponseEntity<ApiResponse<String>> unlikePost(@RequestParam Long userId, @PathVariable Long postId) {
         postLikeService.unlikePost(userId, postId);
         postLikeService.minusLikeCount(postId);
-        return ResponseEntity.ok("Unliked post successfully");
+        return ResponseEntity.ok(ApiResponse.success(HttpStatus.OK, "Unliked post successfully"));
     }
 
     @GetMapping("/{postId}/likes")
-    public ResponseEntity<Long> getLikeCount(@PathVariable Long postId) {
-        return ResponseEntity.ok(postLikeService.getLikeCount(postId));
+    public ResponseEntity<ApiResponse<Long>> getLikeCount(@PathVariable Long postId) {
+        return ResponseEntity.ok(ApiResponse.success(HttpStatus.OK, postLikeService.getLikeCount(postId)));
     }
 
     // ✅ 특정 동네의 게시글만 조회하는 API 추가
     @GetMapping("/district/{postDistrict}")
-    public ResponseEntity<List<CommunityPostDTO>> getPostsByDistrict(@PathVariable String postDistrict) {
-        return ResponseEntity.ok(postService.getPostsByDistrict(postDistrict));
+    public ResponseEntity<ApiResponse<List<CommunityPostDTO>>> getPostsByDistrict(@PathVariable String postDistrict) {
+        return ResponseEntity.ok(ApiResponse.success(HttpStatus.OK, postService.getPostsByDistrict(postDistrict)));
     }
-
 }
